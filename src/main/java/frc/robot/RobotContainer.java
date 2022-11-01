@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.RomiDrivetrain;
@@ -60,6 +59,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drivetrain.setDefaultCommand(getArcadeDriveCommand());
   }
+
   public Command getArcadeDriveCommand(){
     return new ArcadeDrive(drivetrain, () -> driverJoystick.getRawAxis(1), () -> driverJoystick.getRawAxis(2));
   }
