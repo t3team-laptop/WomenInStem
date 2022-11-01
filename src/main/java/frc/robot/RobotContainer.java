@@ -31,6 +31,9 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain = new RomiDrivetrain();
     arcadeDrive = new ArcadeDrive(drivetrain, () -> driverJoystick.getRawAxis(1), () -> driverJoystick.getRawAxis(2));
+    arcadeDrive.addRequirements(drivetrain);
+    drivetrain.setDefaultCommand(arcadeDrive);
+    
 
     driverJoystick = new XboxController(Constants.JOYSTICK_NUMBER);
     //Declare Driver Controller Buttons
