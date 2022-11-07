@@ -15,7 +15,6 @@ package frc.robot;
 public final class Constants {
     //Controller Constants
     public static final int JOYSTICK_NUMBER = 0;
-    public static final int SHOOTER_JOYSTICK_NUMBER = 1;
     public static final int BUT_A = 1;
     public static final int BUT_B = 2;
     public static final int BUT_X = 3;

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.RomiDrivetrain;
@@ -18,23 +20,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
-  
+  private final ArcadeDrive autoCommand;
   // The robot's subsystems and commands are defined here...
   private final RomiDrivetrain drivetrain;
-  public final ArcadeDrive arcadeDrive;
 
   private static XboxController driverJoystick;
   JoystickButton A, B, X, Y, LB, RB, RT, LT, M1, M2;
 
+  private final Supplier<Double> autoX;
+  private final Supplier<Double> autoZ;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    drivetrain = new RomiDrivetrain();
-    arcadeDrive = new ArcadeDrive(drivetrain, () -> driverJoystick.getRawAxis(1), () -> driverJoystick.getRawAxis(2));
-    arcadeDrive.addRequirements(drivetrain);
-    drivetrain.setDefaultCommand(arcadeDrive);
-    
-
     driverJoystick = new XboxController(Constants.JOYSTICK_NUMBER);
     //Declare Driver Controller Buttons
     A = new JoystickButton(driverJoystick, Constants.BUT_A);
@@ -47,6 +45,13 @@ public class RobotContainer {
     RT = new JoystickButton(driverJoystick, Constants.RIGHT_TRIG);
     M1 = new JoystickButton(driverJoystick, Constants.BUT_M1);
     M2 = new JoystickButton(driverJoystick, Constants.BUT_M2);
+    drivetrain = new RomiDrivetrain();
+    autoX = () -> 10.0;
+    autoZ = () -> 10.0;
+    autoCommand = new ArcadeDrive(drivetrain, autoX, autoZ);
+    
+
+   
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -63,8 +68,12 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(getArcadeDriveCommand());
   }
 
+  public Command getAutonomousCommand(){
+    return autoCommand;
+  }
+
   public Command getArcadeDriveCommand(){
-    return new ArcadeDrive(drivetrain, () -> driverJoystick.getRawAxis(1), () -> driverJoystick.getRawAxis(2));
+    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(1), () -> driverJoystick.getRawAxis(2));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
