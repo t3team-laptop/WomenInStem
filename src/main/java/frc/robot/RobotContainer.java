@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.ArmCommand;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.RomiDrivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -20,9 +22,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
-  private final ArcadeDrive autoCommand;
   // The robot's subsystems and commands are defined here...
   private final RomiDrivetrain drivetrain;
+  private final Arm arm;
+
+  private final ArcadeDrive autoCommand;
 
   private static XboxController driverJoystick;
   JoystickButton A, B, X, Y, LB, RB, RT, LT, M1, M2;
@@ -31,8 +35,11 @@ public class RobotContainer {
   private final Supplier<Double> autoZ;
 
 
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    arm = new Arm();
     driverJoystick = new XboxController(Constants.JOYSTICK_NUMBER);
     //Declare Driver Controller Buttons
     A = new JoystickButton(driverJoystick, Constants.BUT_A);
@@ -66,6 +73,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    arm.setDefaultCommand(new ArmCommand(arm, driverJoystick));
+    
     drivetrain.setDefaultCommand(getArcadeDriveCommand());
   }
 
@@ -74,7 +83,7 @@ public class RobotContainer {
   }
 
   public Command getArcadeDriveCommand(){
-    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(Constants.LEFT_JOY_Y), () -> driverJoystick.getRawAxis(Constants.RIGHT_JOY_X));
+    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(Constants.LEFT_JOY_Y), () -> driverJoystick.getRawAxis(Constants.LEFT_JOY_X));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
