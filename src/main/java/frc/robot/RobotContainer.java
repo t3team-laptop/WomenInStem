@@ -45,6 +45,7 @@ public class RobotContainer {
     RT = new JoystickButton(driverJoystick, Constants.RIGHT_TRIG);
     M1 = new JoystickButton(driverJoystick, Constants.BUT_M1);
     M2 = new JoystickButton(driverJoystick, Constants.BUT_M2);
+    
     drivetrain = new RomiDrivetrain();
     autoX = () -> 10.0;
     autoZ = () -> 10.0;
@@ -73,7 +74,7 @@ public class RobotContainer {
   }
 
   public Command getArcadeDriveCommand(){
-    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(1), () -> driverJoystick.getRawAxis(2));
+    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(Constants.LEFT_JOY_Y), () -> driverJoystick.getRawAxis(Constants.RIGHT_JOY_X));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
