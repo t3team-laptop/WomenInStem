@@ -31,22 +31,22 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     if(joystick.getRawButton(Constants.BUT_LB)){
-      arm.incrementLift(-Constants.Arm.SERVO_INCREMENT);
+      arm.incrementLift(Constants.SERVO_INCREMENT);
     }
     if(joystick.getRawButton(Constants.BUT_RB)){
-      arm.incrementLift(Constants.Arm.SERVO_INCREMENT);
+      arm.incrementLift(-Constants.SERVO_INCREMENT);
     }
     if(joystick.getRawButton(Constants.BUT_Y)){
-      arm.incrementTilt(Constants.Arm.SERVO_INCREMENT);
+      arm.incrementTilt(Constants.SERVO_INCREMENT);
     }
     if(joystick.getRawButton(Constants.BUT_A)){
-      arm.incrementTilt(-Constants.Arm.SERVO_INCREMENT);
+      arm.incrementTilt(-Constants.SERVO_INCREMENT);
     }
     if(joystick.getRawButton(Constants.BUT_X)){
-      arm.incrementGripper(Constants.Arm.SERVO_INCREMENT);
+      arm.incrementGripper(-Constants.SERVO_INCREMENT);
     }
     if(joystick.getRawButton(Constants.BUT_B)){
-      arm.incrementTilt(-Constants.Arm.SERVO_INCREMENT);
+      arm.incrementGripper(Constants.SERVO_INCREMENT);
     }
   }
 
