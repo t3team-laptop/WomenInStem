@@ -26,6 +26,7 @@ public class RomiDrivetrain extends SubsystemBase {
   // Set up the differential drive controller
   private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
 
+  private final boolean collisionDetectionOn;
   /** Creates a new RomiDrivetrain. */
   public RomiDrivetrain() {
     // Use inches as unit for encoder distances
@@ -35,6 +36,8 @@ public class RomiDrivetrain extends SubsystemBase {
 
     // Invert right side since motor is flipped
     m_rightMotor.setInverted(true);
+
+    collisionDetectionOn = false;
   }
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
@@ -57,6 +60,9 @@ public class RomiDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if(collisionDetectionOn && Sonar.get() > 10){
+      arcadeDrive(0,0);
+    }
   }
 
   @Override

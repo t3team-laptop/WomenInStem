@@ -6,11 +6,14 @@ package frc.robot;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ArmCommand;
+import frc.robot.commands.ToggleCollisionDetection;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.RomiDrivetrain;
+import frc.robot.subsystems.Sonar;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -34,9 +37,9 @@ public class RobotContainer {
   private final Supplier<Double> autoX;
   private final Supplier<Double> autoZ;
 
-
-
-
+  private final ToggleCollisionDetection toggleCollisionDetection;
+  private final Sonar sonar;
+  private final AnalogInput sensor;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     arm = new Arm();
@@ -58,8 +61,9 @@ public class RobotContainer {
     autoZ = () -> 10.0;
     autoCommand = new ArcadeDrive(drivetrain, autoX, autoZ);
     
-
-   
+    sensor = new AnalogInput(Constants.SENSOR_CHANNEL);
+    sonar = new Sonar(sensor, 0.0);
+    toggleCollisionDetection = new ToggleCollisionDetection(drivetrain);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -76,6 +80,8 @@ public class RobotContainer {
     arm.setDefaultCommand(new ArmCommand(arm, driverJoystick));
     
     drivetrain.setDefaultCommand(getArcadeDriveCommand());
+
+    M1.whenPressed(toggleCollisionDetection);
   }
 
   public Command getAutonomousCommand(){
@@ -83,7 +89,7 @@ public class RobotContainer {
   }
 
   public Command getArcadeDriveCommand(){
-    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(Constants.LEFT_JOY_Y), () -> driverJoystick.getRawAxis(Constants.LEFT_JOY_X));
+    return new ArcadeDrive(drivetrain, () -> -driverJoystick.getRawAxis(Constants.LEFT_JOY_Y), () -> driverJoystick.getRawAxis(Constants.RIGHT_JOY_X));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

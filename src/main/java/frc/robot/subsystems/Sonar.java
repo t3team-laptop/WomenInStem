@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Sonar extends SubsystemBase {
   /** The analog input that the ultrasonic sensor is in */
-  private final AnalogInput sensor;
+  private static AnalogInput sensor;
 
   /**Sensor voltage to millimeter scaling factor */
-  private final double scalingFactor;
+  private static double scalingFactor;
 
   /** true if averaging oversample bits */
-  private boolean average = false;
+  private static boolean average = false;
 
   /**
    * Analog ultrasonic sensors work by returning a voltage value that is proportional
@@ -55,7 +55,7 @@ public class Sonar extends SubsystemBase {
     return get() * 10;
   }
 
-  public Double get(){
+  public static Double get(){
     return average ? sensor.getAverageVoltage() * scalingFactor : sensor.getVoltage() * scalingFactor;
   }
 
@@ -88,4 +88,7 @@ public class Sonar extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+public static void toggleCollisionDetection() {
+}
 }
